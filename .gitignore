@@ -1,0 +1,11 @@
+.git/
+.idea/
+.settings/
+.project
+.classpath
+target/
+*.iml
+.DS_STORE
+.aws-sam/
+build/
+.gradle/
