@@ -11,9 +11,9 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 //Create java class named “SimpleProducer”
-public class SimpleProducer {
+public static class SimpleProducer {
    
-   public  void sendMsg(topicname) throws Exception{
+   public static void sendMsg(topicname) throws Exception{
       
            
       //Assign topicName to string variable
