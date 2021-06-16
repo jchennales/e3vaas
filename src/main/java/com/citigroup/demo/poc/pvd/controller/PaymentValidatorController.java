@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
+import com.citigroup.demo.poc.pvd.controller.SimpleProducer;
 import com.citigroup.demo.poc.pvd.model.PaymentRequest;
 
 @RestController
@@ -32,7 +32,10 @@ public class PaymentValidatorController {
     		result += "Payment amount is invalid. ";
     	}
     	
-        if (result.isEmpty()) result = "Valid!";
+        if (result.isEmpty()) {
+                         result = "Valid!"; 
+                         SimpleProducer.sendMsg("sample.topic");     
+                              }
 
         return result;
         
