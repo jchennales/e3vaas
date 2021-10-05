@@ -100,7 +100,7 @@ public class ApiKeySecurityConfiguration extends WebSecurityConfigurerAdapter {
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 			String credentials = (String) authentication.getCredentials();
-			ApiClient client = apiClientService.findClient(credentials);
+			ApiClient client = apiClientService.find(credentials);
 			if (client == null)	throw new BadCredentialsException("Access Denied");
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 					client.getName(), client.getApiKey(), getClientAuthorities(client));
