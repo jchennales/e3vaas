@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "payment-validation-demo"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1epq4ueubs08z"
-s3_prefix = "payment-validation-demo"
+stack_name = "payment-demo"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-o3ixkw96uyep"
+s3_prefix = "payment-demo"
 region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
