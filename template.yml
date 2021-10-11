@@ -15,7 +15,10 @@ Resources:
       Runtime: java11
       CodeUri: .
       MemorySize: 1024
-      Policies: AWSLambdaBasicExecutionRole
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess
+        - AmazonSQSFullAccess
       Timeout: 60
       Events:
         HttpApiEvent:
