@@ -1,20 +1,51 @@
 package com.citigroup.demo.poc.pvd.service;
 
-import com.citigroup.demo.poc.pvd.exceptions.SwiftValidationTransactionException;
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.citigroup.demo.poc.pvd.model.SwiftValidationRequest;
 import com.citigroup.demo.poc.pvd.model.SwiftValidationResponse;
+import com.citigroup.demo.poc.pvd.model.SwiftValidationTransaction;
 
-/**
- * 
- *
- */
-public interface SwiftValidationService {
+@Service
+public class SwiftValidationService {
 
-	/**
-	 * 
-	 * @param swiftValidationRequest
-	 * @return
-	 * @throws SwiftValidationTransactionException 
-	 */
-	SwiftValidationResponse validate(SwiftValidationRequest swiftValidationRequest) throws SwiftValidationTransactionException;
+	@Autowired
+	private SwiftValidator swiftValidator;
+
+	@Autowired
+	private SwiftValidationTransactionService swiftValidationTransactionService;
+
+	@Autowired
+	private AmazonSqsService amazonSqsService;
+
+	public SwiftValidationResponse validate(SwiftValidationRequest swiftValidationRequest) {
+
+		SwiftValidationResponse swiftValidationResponse = new SwiftValidationResponse();
+
+		String validationErrors = swiftValidator.validate(swiftValidationRequest.getSwiftMessageText());
+		boolean validMessage = validationErrors == null;
+		if (validationErrors == null) validationErrors = "";
+
+		SwiftValidationTransaction transaction = new SwiftValidationTransaction();
+		transaction.setClientId(swiftValidationRequest.getClientId());
+		transaction.setSwiftMessageType(swiftValidationRequest.getSwiftMessageType().toString());
+		transaction.setSwiftMessageText(swiftValidationRequest.getSwiftMessageText());
+		transaction.setValidationStatus(validationErrors == null);
+		transaction.setValidationMessage(validationErrors);
+		transaction.setValiadtionAt(LocalDateTime.now().toString());
+
+		String transactionId = swiftValidationTransactionService.save(transaction);
+
+		swiftValidationResponse.setTransactionId(transactionId);
+		swiftValidationResponse.setValidationStatus(validMessage);
+		swiftValidationResponse.setValidationMessage(validationErrors);
+		
+		amazonSqsService.sendMessage(swiftValidationRequest.getSwiftMessageText(), transactionId);
+		
+		return swiftValidationResponse;
+	}
+
 }

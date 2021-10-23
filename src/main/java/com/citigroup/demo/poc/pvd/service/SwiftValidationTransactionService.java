@@ -1,31 +1,36 @@
 package com.citigroup.demo.poc.pvd.service;
 
-import com.citigroup.demo.poc.pvd.exceptions.SwiftValidationTransactionException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.citigroup.demo.poc.pvd.model.SwiftValidationTransaction;
+import com.citigroup.demo.poc.pvd.repository.SwiftValidationTransactionRepository;
 
-/**
- * 
- *
- */
-public interface SwiftValidationTransactionService {
+import lombok.extern.slf4j.Slf4j;
 
-	/**
-	 * 
-	 * @param swiftValidationTransaction
-	 * @return
-	 * @throws SwiftValidationTransactionException
-	 */
-	
-	//insert data dynamodb
-	String save(SwiftValidationTransaction swiftValidationTransaction) throws SwiftValidationTransactionException;
+@Service
+@Slf4j
+public class SwiftValidationTransactionService {
 
-	/**
-	 * 
-	 * @param transactionId
-	 * @return
-	 */
-	
-	//select data from dynamodb
-	SwiftValidationTransaction find(String transactionId);
+	@Autowired
+	private SwiftValidationTransactionRepository swiftValidationTransactionRepository;
+
+	public String save(SwiftValidationTransaction swiftValidationTransaction) {
+		log.info("Creating new transaction...");
+		String transactionId = null;
+		transactionId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssS"));
+		swiftValidationTransaction.setTransactionId(transactionId);
+		swiftValidationTransactionRepository.save(swiftValidationTransaction);
+		log.info("SwiftValidationTransaction {}", swiftValidationTransaction);
+		return transactionId;
+	}
+
+	public SwiftValidationTransaction find(String transactionId) {
+		log.info("Fetching new transaction for id {}...", transactionId);
+		return swiftValidationTransactionRepository.findById(transactionId).orElse(null);
+	}
 
 }

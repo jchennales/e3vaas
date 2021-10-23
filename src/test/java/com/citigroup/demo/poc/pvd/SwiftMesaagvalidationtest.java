@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.citigroup.demo.poc.pvd.model.MBoolean;
 import com.citigroup.demo.poc.pvd.service.SwiftValidator;
 
 @SpringBootTest
@@ -14,9 +13,9 @@ public class SwiftMesaagvalidationtest {
 	private SwiftValidator swiftValidator;
 	@Test
 	public void test () {
-		MBoolean mboolean = swiftValidator.validate(mt101String);
-		System.out.println(mboolean.value());
-		System.out.println(mboolean.getMessage());
+		String validationErrors = swiftValidator.validate(mt101String);
+		System.out.println(validationErrors == null);
+		System.out.println(validationErrors == null? "" : validationErrors);
 		System.out.println(mt101String);
 			
 	}

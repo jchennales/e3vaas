@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.citigroup.demo.poc.pvd.exceptions.SwiftValidationTransactionException;
-import com.citigroup.demo.poc.pvd.model.SwiftMessageType;
 import com.citigroup.demo.poc.pvd.model.SwiftValidationRequest;
 import com.citigroup.demo.poc.pvd.model.SwiftValidationResponse;
 import com.citigroup.demo.poc.pvd.model.SwiftValidationTransaction;
@@ -33,11 +31,10 @@ public class SwiftMessageValidationController {
 	@PostMapping(value = "/swiftValidate", consumes = "text/plain")
 	@PreAuthorize("hasAuthority('validation')")
 	public SwiftValidationResponse validate(@RequestParam("clientId") String clientId,
-			@RequestParam("type") String messageType, @RequestBody String swiftMessage)
-			throws SwiftValidationTransactionException {
+			@RequestParam("type") String messageType, @RequestBody String swiftMessage)	{
 		SwiftValidationRequest swiftValidationRequest = new SwiftValidationRequest();
 		swiftValidationRequest.setClientId(clientId);
-		swiftValidationRequest.setSwiftMessageType(SwiftMessageType.valueOf(messageType));
+		swiftValidationRequest.setSwiftMessageType(messageType);
 		swiftValidationRequest.setSwiftMessageText(swiftMessage);
 		return swiftValidationService.validate(swiftValidationRequest);
 	}

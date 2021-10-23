@@ -25,7 +25,9 @@ dependencies {
 		  'com.amazonaws:amazon-kinesis-client:1.2.1',
 		  'com.amazonaws:aws-java-sdk-dynamodb',
 		  'gr.datamation:smv:21.5.1:demo@jar',
-		  'com.google.code.gson:gson:2.8.8'
+		  'com.google.code.gson:gson:2.8.8',
+		  'org.springframework.data:spring-data-releasetrain:Neumann-SR9',
+		  'io.github.boostchicken:spring-data-dynamodb:5.2.5'
   )
   testImplementation('junit:junit')
   testImplementation('org.springframework.boot:spring-boot-starter-test:2.3.9.RELEASE')
