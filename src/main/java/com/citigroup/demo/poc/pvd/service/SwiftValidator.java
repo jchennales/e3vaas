@@ -1,5 +1,7 @@
 package com.citigroup.demo.poc.pvd.service;
 
+import org.springframework.stereotype.Component;
+
 import com.google.gson.GsonBuilder;
 
 import gr.datamation.swift.common.InvalidMessageFormatException;
@@ -9,6 +11,7 @@ import gr.datamation.swift.validator.SwiftMsgValidator;
 import gr.datamation.swift.validator.SwiftValidObj;
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
 public class SwiftValidator {
 
