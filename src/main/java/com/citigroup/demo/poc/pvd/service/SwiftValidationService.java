@@ -26,21 +26,19 @@ public class SwiftValidationService {
 		SwiftValidationResponse swiftValidationResponse = new SwiftValidationResponse();
 
 		String validationErrors = swiftValidator.validate(swiftValidationRequest.getSwiftMessageText());
-		boolean validMessage = validationErrors == null;
-		if (validationErrors == null) validationErrors = "";
 
 		SwiftValidationTransaction transaction = new SwiftValidationTransaction();
 		transaction.setClientId(swiftValidationRequest.getClientId());
 		transaction.setSwiftMessageType(swiftValidationRequest.getSwiftMessageType().toString());
 		transaction.setSwiftMessageText(swiftValidationRequest.getSwiftMessageText());
-		transaction.setValidationStatus(validationErrors == null);
+		transaction.setValidationStatus(validationErrors.isEmpty());
 		transaction.setValidationMessage(validationErrors);
 		transaction.setValiadtionAt(LocalDateTime.now().toString());
 
 		String transactionId = swiftValidationTransactionService.save(transaction);
 
 		swiftValidationResponse.setTransactionId(transactionId);
-		swiftValidationResponse.setValidationStatus(validMessage);
+		swiftValidationResponse.setValidationStatus(validationErrors.isEmpty());
 		swiftValidationResponse.setValidationMessage(validationErrors);
 		
 		amazonSqsService.sendMessage(swiftValidationRequest.getSwiftMessageText(), transactionId);

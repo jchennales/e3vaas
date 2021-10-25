@@ -6,7 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.citigroup.demo.poc.pvd.service.SwiftValidator;
 
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootTest
+@Slf4j
 public class SwiftMesaagvalidationtest {
 
 	@Autowired
@@ -14,10 +17,8 @@ public class SwiftMesaagvalidationtest {
 	@Test
 	public void test () {
 		String validationErrors = swiftValidator.validate(mt101String);
-		System.out.println(validationErrors == null);
-		System.out.println(validationErrors == null? "" : validationErrors);
-		System.out.println(mt101String);
-			
+		log.info("Message: [{}]", mt101String);
+		log.info("Validation errors: [{}]", validationErrors);
 	}
 	
 	private static final String mt101String =

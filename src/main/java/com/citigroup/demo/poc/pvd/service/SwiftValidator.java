@@ -26,7 +26,7 @@ public class SwiftValidator {
 			if (swiftValidObj.hasErrors()) {
 				return new GsonBuilder().setPrettyPrinting().create().toJson(swiftValidObj.getValidationErrorList());
 			} else {
-				return null;
+				return "";
 			}
 		} catch (InvalidMessageFormatException e) {
 			log.error("Message cannot be parsed");
