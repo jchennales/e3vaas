@@ -35,7 +35,7 @@ public class SwiftMessageValidationController {
 		SwiftValidationRequest swiftValidationRequest = new SwiftValidationRequest();
 		swiftValidationRequest.setClientId(clientId);
 		swiftValidationRequest.setSwiftMessageType(messageType);
-		swiftValidationRequest.setSwiftMessageText(swiftMessage);
+		swiftValidationRequest.setSwiftMessageText(swiftMessage.replaceAll("\\r", ""));
 		return swiftValidationService.validate(swiftValidationRequest);
 	}
 
